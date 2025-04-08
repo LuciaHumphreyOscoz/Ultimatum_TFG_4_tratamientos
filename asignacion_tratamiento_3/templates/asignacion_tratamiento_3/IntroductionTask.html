@@ -1,0 +1,37 @@
+{% extends "global/Page.html" %}
+{% load otree %}
+
+
+
+{% block content %}
+
+<p>
+    Una vez vistos los ejemplos, ya estás preparado/a para comenzar la tarea competitiva.
+</p>
+
+<p>
+    En cada ronda, se te mostrará una <strong>secuencia de 9 letras mayúsculas</strong>. Esta secuencia se mostrará durante <strong>4 segundos</strong>.
+</p>
+
+<p>
+    Una vez desaparezca, tendrás <strong>20 segundos</strong> para responder a la siguiente pregunta:
+</p>
+
+<p style="margin-left: 1em;"><em>"¿Qué letra estaba en la posición X de la secuencia?"</em></p>
+
+<p>Tu solución puede estar tanto en mayúscula como en minúscula.</p>
+
+<p>
+    La tarea consta de <strong>10</strong> secuencias en total. Cada acierto suma <strong>1 punto</strong> y no hay penalización por errores o respuestas en blanco.
+</p>
+
+<p>
+    Cuando estés listo/a, pulsa <em>Siguiente</em> para comenzar la tarea. Te aparecerá directamente la primera secuencia a memorizar.
+</p>
+
+<form method="post">
+    <button type="submit">Siguiente</button>
+</form>
+{% endblock %}
+
+

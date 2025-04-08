@@ -1,0 +1,17 @@
+{% extends "global/Page.html" %}
+{% load otree %}
+
+
+{% block content %}
+<h3 style="margin-bottom: 25px;">Ronda {{ round_number }}</h3>
+
+<p><strong>Secuencia:</strong> {{ sequence }}</p>
+
+<form method="post">
+    {{ formfields }}
+    <button type="submit">Enviar</button>
+</form>
+{% endblock %}
+
+
+

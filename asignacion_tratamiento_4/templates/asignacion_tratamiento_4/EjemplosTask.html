@@ -1,0 +1,47 @@
+{% extends "global/Page.html" %}
+{% load otree %}
+
+
+{% block content %}
+    <h3 style="margin-bottom: 25px;">Ejemplos tarea competitiva</h3>
+    <p>En la posterior tarea deberás contar cuántas veces aparece la letra <strong>A</strong> en una secuencia de 30 vocales. Aquí tienes dos ejemplos para practicar:</p>
+
+    <p><strong>Ejemplo 1:</strong></p>
+    <p>Secuencia: <code>{{ seq1 }}</code></p>
+    <p>¿Cuántas veces aparece la letra <strong>A</strong>?</p>
+    <button type="button" onclick="document.getElementById('respuesta1').style.display='block'">Mostrar respuesta</button>
+    <p id="respuesta1" style="display:none;"><strong>Respuesta correcta: {{ answer1 }}</strong></p>
+
+    <hr>
+
+    <p><strong>Ejemplo 2:</strong></p>
+    <p>Secuencia: <code>{{ seq2 }}</code></p>
+    <p>¿Cuántas veces aparece la letra <strong>A</strong>?</p>
+    <button type="button" onclick="document.getElementById('respuesta2').style.display='block'">Mostrar respuesta</button>
+    <p id="respuesta2" style="display:none;"><strong>Respuesta correcta: {{ answer2 }}</strong></p>
+
+    <hr>
+
+    <p><strong>Tiempo restante: <span id="timer">02:00</span></strong></p>
+
+    <form method="post">
+        <button type="submit">Siguiente</button>
+    </form>    
+
+    <script>
+        let timeLeft = 120;
+        let timerElement = document.getElementById("timer");
+
+        let countdown = setInterval(function () {
+            let minutes = Math.floor(timeLeft / 60);
+            let seconds = timeLeft % 60;
+            timerElement.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            timeLeft--;
+
+            if (timeLeft < 0) {
+                clearInterval(countdown);
+                document.forms[0].submit(); // Autoenvía
+            }
+        }, 1000);
+    </script>
+{% endblock %}

@@ -1,0 +1,23 @@
+{% extends "global/Page.html" %}
+{% load otree %}
+
+{% block content %}
+    <p>
+        Una vez visto el ejemplo, ya estás preparado/a para realizar la tarea competitiva. 
+    </p>
+
+    <p>
+        Te recordamos que tienes un máximo de <strong>{{ tiempo_minutos }}</strong> minutos para responder correctamente al mayor número de secuencias posible. 
+        Cada acierto suma 1 punto y no hay penalización por error.
+    </p>
+
+    <p>
+        Cuando estés listo/a, pulsa <em>Siguiente</em> para comenzar la tarea competitiva.
+    </p>
+
+    <form method="post">
+        <button type="submit" style="margin-top: 10px;">Siguiente</button>
+    </form>
+{% endblock %}
+
+

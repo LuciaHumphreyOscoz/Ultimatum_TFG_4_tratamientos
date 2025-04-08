@@ -1,0 +1,14 @@
+{% extends "global/Page.html" %}
+{% load otree %}
+
+{% block title %}Ronda {{ round_number }} de 10{% endblock %}
+{% block content %}
+    <h3 style="margin-bottom: 25px;">Ronda {{ round_number }} de 10 </h3>
+    <p>¿Qué letra estaba en la <strong>posición {{ position }}</strong> de la secuencia que acabas de ver?</p>
+
+    <label style="display:none;">{{ form.answer.label }}</label>
+    {{ form.answer }}
+
+    <button type="submit" style="margin-top: 10px;">Enviar</button>
+
+{% endblock %}

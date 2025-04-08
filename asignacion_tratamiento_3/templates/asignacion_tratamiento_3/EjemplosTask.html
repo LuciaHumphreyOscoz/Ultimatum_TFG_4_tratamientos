@@ -1,0 +1,44 @@
+{% extends "global/Page.html" %}
+{% load otree %}
+
+{% block content %}
+    <h3 style="margin-bottom: 25px;">Ejemplos tarea competitiva</h3>
+
+    <p>
+        A continuación verás dos ejemplos del tipo de tarea que vas a realizar.
+    </p>
+
+    <p>
+        Deberás memorizar una secuencia de 9 letras y luego indicar qué letra ocupaba una determinada posición.
+    </p>
+
+    <hr>
+
+    <p><strong>Ejemplo 1</strong></p>
+    <p>Secuencia: <code>{{ seq1 }}</code></p>
+    <p>¿Qué letra estaba en la posición {{ pos1 }}?</p>
+    <button type="button" onclick="document.getElementById('respuesta1').style.display='block'">
+        Mostrar respuesta
+    </button>
+    <p id="respuesta1" style="display:none;">
+        <strong>En este caso, la respuesta sería: {{ answer1 }}</strong>
+    </p>
+
+    <hr>
+
+    <p><strong>Ejemplo 2</strong></p>
+    <p>Secuencia: <code>{{ seq2 }}</code></p>
+    <p>¿Qué letra estaba en la posición {{ pos2 }}?</p>
+    <button type="button" onclick="document.getElementById('respuesta2').style.display='block'">
+        Mostrar respuesta
+    </button>
+    <p id="respuesta2" style="display:none;">
+        <strong>En este caso, la respuesta sería: {{ answer2 }}</strong>
+    </p>
+
+    <hr>
+
+    <form method="post">
+        <button type="submit" style="margin-top: 10px;">Siguiente</button>
+    </form>
+{% endblock %}

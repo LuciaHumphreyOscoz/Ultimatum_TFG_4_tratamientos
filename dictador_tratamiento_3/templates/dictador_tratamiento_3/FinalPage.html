@@ -1,0 +1,18 @@
+{% block content %}
+
+<h3 style="margin-bottom: 25px;"></h3style>Pago total en euros: <strong>{{ payment_in_euros }}€</strong></h3>
+
+<p>Por favor, espera con paciencia hasta que te llamemos. Mientras tanto, se te pedirá que rellenes un breve cuestionario.</p>
+
+<p>Te llamaremos siguiendo el orden del código de identificación que introdujiste al inicio.</p>
+
+<p>Todo el dinero indicado como "Pago total" se entregará de forma privada, dentro de un sobre marcado con tu código de identificación, para garantizar la confidencialidad.</p>
+
+<p>Haz clic en "Siguiente" para continuar.</p>
+
+{{ formfields }}  
+<form method="post">
+    <button type="submit">Siguiente</button>
+</form>
+
+{% endblock %}
