@@ -6,63 +6,54 @@ SESSION_CONFIGS = [
         'display_name': "Correos electrónicos",
         'num_demo_participants': 4,
         'app_sequence': ['emails'],
-        'session_label': None,
     },
     {
         'name': 'Tratamiento_1_Asignacion',
         'display_name': "Tratamiento 1 Asignacion",
         'num_demo_participants': 2,
         'app_sequence': ['asignacion_tratamiento_1'],
-        'session_label': None,
     },
     {
         'name': 'Tratamiento_1_Dictador',
         'display_name': "Tratamiento 1 Dictador",
         'num_demo_participants': 2,
         'app_sequence': ['dictador_tratamiento_1'],
-        'session_label': None,
     },
     {
         'name': 'Tratamiento_2_Asignacion',
         'display_name': "Tratamiento 2 Asignación",
         'num_demo_participants': 2,
         'app_sequence': ['asignacion_tratamiento_2'],
-        'session_label': None,
     },
     {
         'name': 'Tratamiento_2_Dictador',
         'display_name': "Tratamiento 2 Dictador",
         'num_demo_participants': 2,
         'app_sequence': ['dictador_tratamiento_2'],
-        'session_label': None,
     },
     {
         'name': 'Tratamiento_3_Asignacion',
         'display_name': "Tratamiento 3 Asignación",
         'num_demo_participants': 2,
         'app_sequence': ['asignacion_tratamiento_3'],
-        'session_label': None,
     },
     {
         'name': 'Tratamiento_3_Dictador',
         'display_name': "Tratamiento 3 Dictador",
         'num_demo_participants': 2,
         'app_sequence': ['dictador_tratamiento_3'],
-        'session_label': None,
     },
     {
         'name': 'Tratamiento_4_Asignacion',
         'display_name': "Tratamiento 4 Asignación",
         'num_demo_participants': 2,
         'app_sequence': ['asignacion_tratamiento_4'],
-        'session_label': None,
     },
     {
         'name': 'Tratamiento_4_sDictador',
         'display_name': "Tratamiento 4 Dictador",
         'num_demo_participants': 2,
         'app_sequence': ['dictador_tratamiento_4'],
-        'session_label': None,
     },
 ]
 
@@ -91,9 +82,12 @@ ROOMS = [
 
 SESSION_CONFIG_DEFAULTS = dict(
     real_world_currency_per_point=1.00,
-    participation_fee=0.00,
-    doc=""
+    participation_fee=1.00,
+    doc="",
 )
+
+# Seguimos permitiendo que puedas usar session_label si quieres (con Edit o URL)
+SESSION_CONFIGS_CONFIGURABLE_FIELDS = ['session_label']
 
 PARTICIPANT_FIELDS = []
 SESSION_FIELDS = []
