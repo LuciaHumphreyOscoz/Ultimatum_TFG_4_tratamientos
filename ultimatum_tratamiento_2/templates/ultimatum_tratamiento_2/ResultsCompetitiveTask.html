@@ -1,0 +1,24 @@
+{% block content %}
+    <h3 style="margin-bottom: 25px;">Resultados Tarea Competitiva</h3>
+
+    <p>En esta tarea competitiva, la mitad de los participantes tuvo <strong>15 minutos</strong> y la otra mitad <strong>18 minutos</strong> para completarla.</p>
+
+    <p>Has tenido <strong>{{ my_time }}</strong> minutos para realizar la tarea.</p>
+    
+    <p>Calculamos los resultados de todos los participantes de la sala y elaboramos un ranking en consecuencia.</p>
+    
+    {% if assigned_role == 'proposer' %}
+        <p>Estás dentro del 50% con mejor rendimiento en la tarea competitiva</p>
+    {% elif assigned_role == 'receiver' %}
+        <p>No estás dentro del 50% con mejor rendimiento en la tarea competitiva</p>
+    {% endif %}
+
+    {{ formfields }}
+    <form method="post">
+        <button type="submit">Siguiente</button>
+    </form>
+{% endblock %}
+
+
+
+

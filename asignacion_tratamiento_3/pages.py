@@ -33,13 +33,13 @@ class EjemplosTask(Page):
             letters = list('ABCDEFGHIJKLMNOPQRSTUVWXYZ')
 
             # Ejemplo 1
-            seq1 = random.choices(letters, k=9)
-            pos1 = random.randint(1, 9)
+            seq1 = random.choices(letters, k=8)
+            pos1 = random.randint(1, 8)
             correct1 = seq1[pos1 - 1]
 
             # Ejemplo 2
-            seq2 = random.choices(letters, k=9)
-            pos2 = random.randint(1, 9)
+            seq2 = random.choices(letters, k=8)
+            pos2 = random.randint(1, 8)
             correct2 = seq2[pos2 - 1]
 
             # Guardar en session.vars
@@ -67,7 +67,6 @@ class IntroductionTask(Page):
 
 
 class Showsequence(Page):
-    timeout_seconds = 4 # Mostrar secuencia solo 4 segundos
 
     def vars_for_template(self):
         return dict(sequence=self.player.sequence)

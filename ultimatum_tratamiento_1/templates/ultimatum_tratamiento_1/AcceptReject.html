@@ -1,0 +1,17 @@
+
+{% block content %}
+    <h3 style="margin-bottom: 25px;">Decisión</h3>
+
+    <p>El proponente te ha ofrecido <strong>{{ offer }} experimentales</strong>.</p>
+    <p>Si aceptas, recibirás esa cantidad y el proponente se quedará con {{ proposer_payoff }} experimentales. Si rechazas, ninguno recibirá puntos.</p>
+    <p>Recuerda que 1 punto experimental equivale a 0,5€.</p>
+
+    {{ formfields }}
+
+    <form method="post">
+        <button type="submit">Confirmar</button>
+    </form>
+{% endblock %}
+
+
+

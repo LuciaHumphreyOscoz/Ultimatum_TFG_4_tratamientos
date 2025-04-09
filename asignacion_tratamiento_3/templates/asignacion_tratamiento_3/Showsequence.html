@@ -1,10 +1,43 @@
 {% extends "global/Page.html" %}
 {% load otree %}
 
-
 {% block content %}
-    <h2 style="font-size: 32px; letter-spacing: 10px; text-align: center;">
+
+<!-- Cuenta atrás inicial -->
+<div id="countdown" style="font-size: 60px; text-align: center;margin-top: 70px;"></div>
+
+<!-- Secuencia a mostrar -->
+<div id="sequence" style="display:none;">
+    <h2 style="font-size: 60px; letter-spacing: 10px; text-align: center;margin-top: 70px;">
         {{ sequence }}
     </h2>
+</div>
+
+<script>
+    const countdownDiv = document.getElementById("countdown");
+    const sequenceDiv = document.getElementById("sequence");
+
+    let preCountdown = 3;
+    countdownDiv.textContent = preCountdown;
+
+    const preInterval = setInterval(() => {
+        preCountdown -= 1;
+        if (preCountdown > 0) {
+            countdownDiv.textContent = preCountdown;
+        } else {
+            clearInterval(preInterval);
+            countdownDiv.style.display = 'none';
+            sequenceDiv.style.display = 'block';
+
+            // Mostrar la secuencia durante 4 segundos
+            setTimeout(() => {
+                document.forms[0].submit();
+            }, 4000);
+        }
+    }, 1000);
+</script>
+
+<!-- Necesario para el auto-submit -->
+<form method="post"></form>
 
 {% endblock %}

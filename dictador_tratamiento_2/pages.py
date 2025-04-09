@@ -1,7 +1,5 @@
 from .models import *
-
 def set_payoffs(group: Group):
-    """Calculate final payoffs based on allocator's decision"""
     players = group.get_players()
     allocator = next((p for p in players if p.assigned_role == 'allocator'), None)
     receiver = next((p for p in players if p.assigned_role == 'receiver'), None)
@@ -10,8 +8,14 @@ def set_payoffs(group: Group):
         allocator.final_payment = C.ENDOWMENT - group.offer
         receiver.final_payment = group.offer
 
-        allocator.participant.vars['dictator_final_payment'] = allocator.final_payment
-        receiver.participant.vars['dictator_final_payment'] = receiver.final_payment
+        # Asignar el payoff oficial
+        allocator.payoff = allocator.final_payment
+        receiver.payoff = receiver.final_payment
+
+        allocator.total_payment_euros = 1.00 + float(allocator.final_payment) * 0.5
+        receiver.total_payment_euros = 1.00 + float(receiver.final_payment) * 0.5
+
+
 
 class EnterID(Page):
     form_model = 'player'
@@ -20,10 +24,12 @@ class EnterID(Page):
     def before_next_page(self):
         self.player.participant.vars['custom_id'] = self.player.custom_participant_id
 
+        # Asignar límite de tiempo según el custom ID
         if self.player.custom_participant_id:  # Evitar errores si es None
-            numeric_id = int(self.player.custom_participant_id)  # Convertir a número
+            numeric_id = int(self.player.custom_participant_id)
             self.player.time_limit = 15 if numeric_id % 2 == 0 else 18
-            self.player.participant.vars['time_limit'] = self.player.time_limit
+            self.participant.vars['time_limit'] = self.player.time_limit
+
             
 class WaitForPartner(WaitPage):
     title_text = "Por favor, espera..."
@@ -72,16 +78,8 @@ class Decision(Page):
         set_payoffs(self.group)
 
 class WaitForResults(WaitPage):
-    wait_for_all_groups = True
+    pass
     
-class PerceptionQuestion(Page):
-    form_model = 'player'
-    form_fields = ['perception_others_allocators', 'perception_allocators']
-
-    def vars_for_template(self):
-        return {
-            'role': self.player.assigned_role,
-        }
 
 class PerceptionQuestion(Page):
     form_model = 'player'
@@ -119,16 +117,19 @@ class ResultsReceiver(Page):
 
 
 class FinalPage(Page):
-
     def is_displayed(self):
-        return True  # Se muestra a todos
+        return True
 
     def vars_for_template(self):
-        euros = round(float(self.player.final_payment) * 0.5, 2)
-        self.player.payment_in_euros = euros 
+        payoff_points = self.player.payoff or 0
+        fixed_part = 1.00
+        variable_part = float(payoff_points) * 0.5
+        total_payment = fixed_part + variable_part
         return {
-            'final_payment': self.player.final_payment,
-            'payment_in_euros': euros
+            "fixed_part": round(fixed_part, 2),
+            "variable_part": round(variable_part, 2),
+            "total_payment_euros": round(total_payment, 2),
+            "final_payment": payoff_points  # en puntos
         }
     
 class FinalQuestionnaire(Page):

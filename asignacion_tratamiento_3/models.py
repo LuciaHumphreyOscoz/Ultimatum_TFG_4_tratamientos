@@ -14,11 +14,11 @@ class Subsession(BaseSubsession):
             self.session.vars['correct_letters'] = []
 
             LETTERS = list('ABCDEFGHIJKLMNOPQRSTUVWXYZ')
-            SEQUENCE_LENGTH = 9
+            SEQUENCE_LENGTH = 8
 
             for _ in range(C.NUM_ROUNDS):
                 seq = random.choices(LETTERS, k=SEQUENCE_LENGTH)
-                position_weights = [1, 2, 3, 4, 4, 4, 3, 2, 1]
+                position_weights = [1, 2, 3, 4, 4, 3, 2, 1]
                 pos = random.choices(
                     population=list(range(1, SEQUENCE_LENGTH + 1)),
                     weights=position_weights,

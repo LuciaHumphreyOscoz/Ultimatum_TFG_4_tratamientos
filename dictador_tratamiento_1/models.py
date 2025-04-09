@@ -1,22 +1,24 @@
 from otree.api import *
 
-
 class C(BaseConstants): 
     NAME_IN_URL = 'dictator_game1'
     PLAYERS_PER_GROUP = 2
     NUM_ROUNDS = 1
-    ENDOWMENT = 10  # Cantidad inicial que el asignador puede repartir
+    ENDOWMENT = 10
 
 class Subsession(BaseSubsession):
     def creating_session(self):
-        self.group_randomly()  # Solo necesitas emparejar 2 personas
+        players = self.get_players()
+        players.sort(key=lambda p: p.participant.id_in_session)
+        groups = [players[i:i + 2] for i in range(0, len(players), 2)]
+        self.set_group_matrix(groups)
 
         for group in self.get_groups():
-            players = group.get_players()
-            players[0].assigned_role = 'allocator'
-            players[1].assigned_role = 'receiver'
-            for p in players:
-                p.participant.vars['assigned_role'] = p.assigned_role
+            p1, p2 = group.get_players()
+            p1.assigned_role = 'allocator'
+            p2.assigned_role = 'receiver'
+            p1.participant.vars['assigned_role'] = 'allocator'
+            p2.participant.vars['assigned_role'] = 'receiver'
 
 class Group(BaseGroup):
     offer = models.CurrencyField(
@@ -28,8 +30,8 @@ class Group(BaseGroup):
 class Player(BasePlayer):
     assigned_role = models.StringField()
     final_payment = models.CurrencyField()
+    total_payment_euros = models.FloatField()
     custom_participant_id = models.IntegerField()
-    payment_in_euros = models.FloatField()
     explanation = models.LongStringField(
         label="¿Por qué decidiste enviar esa cantidad al receptor?"
     )
@@ -39,8 +41,12 @@ class Player(BasePlayer):
 
     def role(self):
         return self.assigned_role
-    
-    
+
+    def set_payments(self):
+        self.fixed_part = 1.00
+        self.variable_part = self.payoff * 0.5
+        self.total_payment_euros = self.fixed_part + self.variable_part
+
     perception_others_allocators = models.FloatField(
         label="¿Cuántos puntos experimentales crees que han compartido de media los demás asignadores?",
         min=0,
@@ -52,8 +58,6 @@ class Player(BasePlayer):
         max=10
     )
 
-    
-      # Cuestionario final
     gender = models.StringField(
         label="Género",
         choices=["Hombre", "Mujer", "Otro"],
@@ -61,11 +65,19 @@ class Player(BasePlayer):
     )
     age = models.IntegerField(label="Edad")
     studies = models.StringField(label="¿Qué estudias?")
-    socialcapital=models.StringField(label="¿Alguno de tus padres ha obtenido un título unversitario?", choices=["Sí","No", "No estoy seguro"],widget=widgets.RadioSelect)
-    football_team=models.StringField(label="¿Con que equipo de fútbol simpatizas más?")
-    becaMEC= models.StringField(label="¿Has recibido la Beca del Ministerio de Educación (beca MEC) alguna vez en lo que llevas de carrera?", choices=[ "Sí", "No", "No estoy seguro"],widget=widgets.RadioSelect)
-    payoff_satisfaction = models.IntegerField(min=1,max=10,label="¿En una escala del 1 al 10, cuán satisfecho/a estás con tus ganancias en el experimento? (1 = totalmente insatisfecho/a, 10 = totalmente satisfecho/a)")
-    role_fairness = models.IntegerField(min=1,max=10,label="¿En una escala del 1 al 10, cuán justa consideras la asignación de roles? (1 = totalmente injusta, 10 = totalmente justa)")
-    discrimiation_level = models.IntegerField(min=1,max=10,label="¿En una escala del 1 al 10, hasta qué punto sentiste que el uso del género como criterio fue una forma de discriminación? (1 = para nada, 10 = totalmente)")
+    socialcapital = models.StringField(
+        label="¿Alguno de tus padres ha obtenido un título unversitario?",
+        choices=["Sí", "No", "No estoy seguro"],
+        widget=widgets.RadioSelect
+    )
+    football_team = models.StringField(label="¿Con qué equipo de fútbol simpatizas más?")
+    becaMEC = models.StringField(
+        label="¿Has recibido la Beca del Ministerio de Educación (beca MEC) alguna vez en lo que llevas de carrera?",
+        choices=["Sí", "No", "No estoy seguro"],
+        widget=widgets.RadioSelect
+    )
+    payoff_satisfaction = models.IntegerField(min=1, max=10, label="¿Cuán satisfecho/a estás con tus ganancias?")
+    role_fairness = models.IntegerField(min=1, max=10, label="¿Cuán justa consideras la asignación de roles?")
+    discrimiation_level = models.IntegerField(min=1, max=10, label="¿Hasta qué punto sentiste discriminación?")
 
     

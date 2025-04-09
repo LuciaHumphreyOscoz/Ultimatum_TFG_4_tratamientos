@@ -1,7 +1,6 @@
 from .models import *
 
 def set_payoffs(group: Group):
-    """Calculate final payoffs based on allocator's decision"""
     players = group.get_players()
     allocator = next((p for p in players if p.assigned_role == 'allocator'), None)
     receiver = next((p for p in players if p.assigned_role == 'receiver'), None)
@@ -10,8 +9,14 @@ def set_payoffs(group: Group):
         allocator.final_payment = C.ENDOWMENT - group.offer
         receiver.final_payment = group.offer
 
-        allocator.participant.vars['dictator_final_payment'] = allocator.final_payment
-        receiver.participant.vars['dictator_final_payment'] = receiver.final_payment
+        # Asignar el payoff oficial
+        allocator.payoff = allocator.final_payment
+        receiver.payoff = receiver.final_payment
+
+        allocator.total_payment_euros = 1.00 + float(allocator.final_payment) * 0.5
+        receiver.total_payment_euros = 1.00 + float(receiver.final_payment) * 0.5
+
+
 
 class EnterID(Page):
     form_model = 'player'
@@ -40,16 +45,7 @@ class Decision(Page):
         set_payoffs(self.group)
 
 class WaitForResults(WaitPage):
-    wait_for_all_groups = True
-    
-class PerceptionQuestion(Page):
-    form_model = 'player'
-    form_fields = ['perception_others_allocators', 'perception_allocators']
-
-    def vars_for_template(self):
-        return {
-            'role': self.player.assigned_role,
-        }
+    pass  
 
 class PerceptionQuestion(Page):
     form_model = 'player'
@@ -59,8 +55,6 @@ class PerceptionQuestion(Page):
             return ['perception_others_allocators']
         else:
             return ['perception_allocators']
-
-
 
 class ResultsAllocator(Page):
     form_model = 'player'
@@ -84,23 +78,26 @@ class ResultsReceiver(Page):
         return {
             'final_payment': self.player.final_payment,
         }
-
-
+        
+        
 class FinalPage(Page):
-
     def is_displayed(self):
-        return True  # Se muestra a todos
+        return True
 
     def vars_for_template(self):
-        euros = round(float(self.player.final_payment) * 0.5, 2)
-        self.player.payment_in_euros = euros 
+        payoff_points = self.player.payoff or 0
+        fixed_part = 1.00
+        variable_part = float(payoff_points) * 0.5
+        total_payment = fixed_part + variable_part
         return {
-            'final_payment': self.player.final_payment,
-            'payment_in_euros': euros
+            "fixed_part": round(fixed_part, 2),
+            "variable_part": round(variable_part, 2),
+            "total_payment_euros": round(total_payment, 2),
+            "final_payment": payoff_points  # en puntos
         }
 
 
-    
+
 class FinalQuestionnaire(Page):
     form_model = 'player'
     form_fields = [
@@ -115,6 +112,15 @@ class FinalQuestionnaire(Page):
         'role_fairness',
     ]
 
-
-
-page_sequence = [EnterID, Introduction, RoleAssignment, Decision, WaitForResults,PerceptionQuestion, ResultsAllocator, ResultsReceiver, FinalPage,FinalQuestionnaire]
+page_sequence = [
+    EnterID,
+    Introduction,
+    RoleAssignment,
+    Decision,
+    WaitForResults,
+    PerceptionQuestion,
+    ResultsAllocator,
+    ResultsReceiver,
+    FinalPage,
+    FinalQuestionnaire
+]

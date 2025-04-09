@@ -20,6 +20,12 @@ SESSION_CONFIGS = [
         'app_sequence': ['dictador_tratamiento_1'],
     },
     {
+        'name': 'Tratamiento_1_Ultimatum',
+        'display_name': "Tratamiento 1 Ultimatum",
+        'num_demo_participants': 2,
+        'app_sequence': ['ultimatum_tratamiento_1'],
+    },
+    {
         'name': 'Tratamiento_2_Asignacion',
         'display_name': "Tratamiento 2 Asignación",
         'num_demo_participants': 2,
@@ -30,6 +36,12 @@ SESSION_CONFIGS = [
         'display_name': "Tratamiento 2 Dictador",
         'num_demo_participants': 2,
         'app_sequence': ['dictador_tratamiento_2'],
+    },
+    {
+        'name': 'Tratamiento_2_Ultimatum',
+        'display_name': "Tratamiento 2 Ultimatum",
+        'num_demo_participants': 2,
+        'app_sequence': ['ultimatum_tratamiento_2'],
     },
     {
         'name': 'Tratamiento_3_Asignacion',
@@ -44,16 +56,28 @@ SESSION_CONFIGS = [
         'app_sequence': ['dictador_tratamiento_3'],
     },
     {
+        'name': 'Tratamiento_3_Ultimatum',
+        'display_name': "Tratamiento 3 Ultimatum",
+        'num_demo_participants': 2,
+        'app_sequence': ['ultimatum_tratamiento_3'],
+    },
+    {
         'name': 'Tratamiento_4_Asignacion',
         'display_name': "Tratamiento 4 Asignación",
         'num_demo_participants': 2,
         'app_sequence': ['asignacion_tratamiento_4'],
     },
     {
-        'name': 'Tratamiento_4_sDictador',
+        'name': 'Tratamiento_4_Dictador',
         'display_name': "Tratamiento 4 Dictador",
         'num_demo_participants': 2,
         'app_sequence': ['dictador_tratamiento_4'],
+    },
+    {
+        'name': 'Tratamiento_4_Ultimatum',
+        'display_name': "Tratamiento 4 Ultimatum",
+        'num_demo_participants': 2,
+        'app_sequence': ['ultimatum_tratamiento_4'],
     },
 ]
 
@@ -81,7 +105,7 @@ ROOMS = [
 ]
 
 SESSION_CONFIG_DEFAULTS = dict(
-    real_world_currency_per_point=1.00,
+    real_world_currency_per_point=0.50,
     participation_fee=1.00,
     doc="",
 )

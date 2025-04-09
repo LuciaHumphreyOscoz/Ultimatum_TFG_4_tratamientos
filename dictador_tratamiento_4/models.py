@@ -10,15 +10,20 @@ class C(BaseConstants):
 
 class Subsession(BaseSubsession):
     def creating_session(self):
-        self.group_randomly()  # Solo necesitas emparejar 2 personas
+        players = self.get_players()
+        players.sort(key=lambda p: p.participant.id_in_session)
+
+        groups = [players[i:i + 2] for i in range(0, len(players), 2)]
+        self.set_group_matrix(groups)
 
         for group in self.get_groups():
-            players = group.get_players()
-            players[0].assigned_role = 'allocator'
-            players[1].assigned_role = 'receiver'
-            for p in players:
-                p.participant.vars['assigned_role'] = p.assigned_role
+            p1, p2 = group.get_players()
+            p1.assigned_role = 'allocator'
+            p2.assigned_role = 'receiver'
 
+            p1.participant.vars['assigned_role'] = 'allocator'
+            p2.participant.vars['assigned_role'] = 'receiver'
+            
 class Group(BaseGroup):
     offer = models.CurrencyField(
         min=0,
@@ -30,7 +35,7 @@ class Player(BasePlayer):
     assigned_role = models.StringField()
     final_payment = models.CurrencyField()
     custom_participant_id = models.IntegerField( label="Código de Participante")
-    payment_in_euros = models.FloatField()
+    total_payment_euros = models.FloatField()
     
     
     explanation = models.LongStringField(
