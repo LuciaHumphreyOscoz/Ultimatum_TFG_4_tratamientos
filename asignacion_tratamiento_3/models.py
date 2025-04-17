@@ -45,4 +45,8 @@ class Player(BasePlayer):
     correct_letter = models.StringField()
     answer = models.StringField(blank=True)
     score = models.IntegerField(initial=0)
-    custom_participant_id = models.IntegerField(label="Código de Participante")
+    custom_participant_id = models.IntegerField(min=100,
+        max=999,)
+    def save_custom_id(self):
+        self.custom_participant_id = self.participant.vars.get('custom_id', '')
+    

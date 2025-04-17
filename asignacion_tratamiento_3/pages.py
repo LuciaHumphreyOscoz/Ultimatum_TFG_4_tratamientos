@@ -70,6 +70,9 @@ class Showsequence(Page):
 
     def vars_for_template(self):
         return dict(sequence=self.player.sequence)
+    
+    def before_next_page(self):
+        self.player.custom_participant_id = self.participant.vars.get('custom_id', '')
 
     def is_displayed(self):
         return True
@@ -97,7 +100,7 @@ class Taskanswer(Page):
 
         # Guardar score acumulado para resultados finales
         self.participant.vars['final_score'] = self.player.score
-
+        
 
 class FinalPage(Page):
     def is_displayed(self):

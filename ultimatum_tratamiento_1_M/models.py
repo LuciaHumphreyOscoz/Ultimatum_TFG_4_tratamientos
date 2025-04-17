@@ -2,10 +2,10 @@ from otree.api import *
 
 
 class C(BaseConstants): 
-    NAME_IN_URL ='ultimatum_game_2'
+    NAME_IN_URL = 'ultimatum_game_1:M'
     PLAYERS_PER_GROUP = 2
     NUM_ROUNDS = 1
-    ENDOWMENT = 10  # Cantidad inicial que el asignador puede repartir
+    ENDOWMENT = 10  # Cantidad inicial que el proponente puede ofrecer
 
 
 class Subsession(BaseSubsession):
@@ -25,6 +25,7 @@ class Subsession(BaseSubsession):
             p2.participant.vars['assigned_role'] = 'receiver'
 
 
+
 class Group(BaseGroup):
     offer = models.CurrencyField(
         min=0,
@@ -34,12 +35,13 @@ class Group(BaseGroup):
     offer_accepted = models.BooleanField(label="¿Aceptas la oferta?")
 
 
+
 class Player(BasePlayer):
     assigned_role = models.StringField()
     final_payment = models.CurrencyField()
     custom_participant_id = models.IntegerField( label="Código de Participante")
-    time_limit = models.IntegerField()
     total_payment_euros = models.FloatField()
+    
     explanation1 = models.LongStringField(
         label="¿Por qué decidiste ofrecer esa cantidad ?"
     )
@@ -56,6 +58,7 @@ class Player(BasePlayer):
         label="¿Cuántos puntos habrías repartido si la otra persona no pudiera rechazar tu propuesta?"
     )
 
+
     # Percepciones sobre el comportamiento de otros
     perception_others_proposers = models.FloatField(
         label="¿Cuántos puntos experimentales crees que han ofrecido de media los demás proponentes?",
@@ -68,8 +71,7 @@ class Player(BasePlayer):
         max=10
     )
 
-    
-      # Cuestionario final
+    # Cuestionario final
     gender = models.StringField(
         label="Género",
         choices=["Hombre", "Mujer", "Otro"],
@@ -77,12 +79,29 @@ class Player(BasePlayer):
     )
     age = models.IntegerField(label="Edad")
     studies = models.StringField(label="¿Qué estudias?")
-    socialcapital=models.StringField(label="¿Alguno de tus padres ha obtenido un título unversitario?", choices=["Sí","No", "No estoy seguro"],widget=widgets.RadioSelect)
-    football_team=models.StringField(label="¿Con que equipo de fútbol simpatizas más?")
-    becaMEC= models.StringField(label="¿Has recibido la Beca del Ministerio de Educación (beca MEC) alguna vez en lo que llevas de carrera?", choices=[ "Sí", "No", "No estoy seguro"],widget=widgets.RadioSelect)
-    payoff_satisfaction = models.IntegerField(label="¿En una escala del 1 al 10, cuán satisfecho/a estás con tus ganancias en el experimento? (1 = totalmente insatisfecho/a, 10 = totalmente satisfecho/a)", min=1,max=10,)
-    role_fairness = models.IntegerField(min=1, max=10, label="¿En una escala del 1 al 10, cuán justa consideras la asignación de roles? (1 = totalmente injusta, 10 = totalmente justa)")
-    class_level=models.IntegerField(min=1, max=10, label="¿En una escala del 1 al 10, cuánto crees que la ventaja inicial de tiempo ha afectado la asignación de roles? (1 = nada, 10 = completamente)")
-
-
-    
+    socialcapital = models.StringField(
+        label="¿Alguno de tus padres ha obtenido un título universitario?",
+        choices=["Sí", "No", "No estoy seguro"],
+        widget=widgets.RadioSelect
+    )
+    football_team = models.StringField(label="¿Con qué equipo de fútbol simpatizas más?")
+    becaMEC = models.StringField(
+        label="¿Has recibido la Beca del Ministerio de Educación (beca MEC) alguna vez en lo que llevas de carrera?",
+        choices=["Sí", "No", "No estoy seguro"],
+        widget=widgets.RadioSelect
+    )
+    payoff_satisfaction = models.IntegerField(
+        label="¿En una escala del 1 al 10, cuán satisfecho/a estás con tus ganancias en el experimento? (1 = totalmente insatisfecho/a, 10 = totalmente satisfecho/a)",      
+        min=1,
+        max=10,
+    )
+    role_fairness = models.IntegerField(
+        min=1,
+        max=10,
+        label="¿En una escala del 1 al 10, cuán justa consideras la asignación de roles? (1 = totalmente injusta, 10 = totalmente justa)"
+    )
+    discrimiation_level = models.IntegerField(
+        min=1,
+        max=10,
+        label="¿En una escala del 1 al 10, hasta qué punto sentiste que el uso del género como criterio fue una forma de discriminación? (1 = para nada, 10 = totalmente)"
+    )

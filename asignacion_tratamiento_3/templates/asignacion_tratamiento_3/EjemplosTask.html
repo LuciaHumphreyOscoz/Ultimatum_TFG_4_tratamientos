@@ -38,7 +38,28 @@
 
     <hr>
 
+    <p><strong>Tiempo restante: <span id="timer">02:00</span></strong></p>
+
     <form method="post">
-        <button type="submit" style="margin-top: 10px;">Siguiente</button>
-    </form>
+        <button type="submit">Siguiente</button>
+    </form>    
+
+    <script>
+        let timeLeft = 120;
+        let timerElement = document.getElementById("timer");
+
+        let countdown = setInterval(function () {
+            let minutes = Math.floor(timeLeft / 60);
+            let seconds = timeLeft % 60;
+            timerElement.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            timeLeft--;
+
+            if (timeLeft < 0) {
+                clearInterval(countdown);
+                document.forms[0].submit(); // Autoenvía
+            }
+        }, 1000);
+    </script>
 {% endblock %}
+
+

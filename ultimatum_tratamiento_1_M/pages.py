@@ -19,6 +19,7 @@ def set_payoffs(group: Group):
         proposer.total_payment_euros = 2.00 + float(proposer.final_payment) * 0.5
         receiver.total_payment_euros = 2.00 + float(receiver.final_payment) * 0.5
 
+
 class EnterID(Page):
     form_model = 'player'
     form_fields = ['custom_participant_id']
@@ -26,20 +27,15 @@ class EnterID(Page):
     def before_next_page(self):
         self.player.participant.vars['custom_id'] = self.player.custom_participant_id
 
-class ResultsCompetitiveTask(Page):
-      def vars_for_template(self):
-        return {
-            'assigned_role': self.player.assigned_role,
-        }       
 
 class Introduction(Page):
     pass
 
+
 class RoleAssignment(Page):
     def vars_for_template(self):
-        return {
-            'assigned_role': self.player.assigned_role
-        }
+        return {'assigned_role': self.player.assigned_role}
+
 
 class Offer(Page):
     form_model = 'group'
@@ -51,7 +47,7 @@ class Offer(Page):
 class WaitForOffer(WaitPage):
     def is_displayed(self):
         return self.player.assigned_role == 'receiver'
-    
+
 class PerceptionQuestion(Page):
     form_model = 'player'
 
@@ -65,6 +61,8 @@ class PerceptionQuestion(Page):
         return {
             'role': self.player.assigned_role,
         }
+
+    
     
 class DictatorOffer(Page):
     form_model = 'player'
@@ -72,7 +70,6 @@ class DictatorOffer(Page):
 
     def is_displayed(self):
         return self.player.assigned_role == 'proposer'
-
 
 class AcceptReject(Page):
     form_model = 'group'
@@ -91,7 +88,6 @@ class AcceptReject(Page):
     def before_next_page(self):
         if self.player.assigned_role == 'receiver':
             set_payoffs(self.group)
-
 
 
 
@@ -130,6 +126,9 @@ class ResultsReceiver(Page):
             'final_payment': self.player.final_payment,
         }
 
+
+
+
 class FinalPage(Page):
     def is_displayed(self):
         return True
@@ -147,7 +146,6 @@ class FinalPage(Page):
         }
 
 
-    
 class FinalQuestionnaire(Page):
     form_model = 'player'
     form_fields = [
@@ -158,14 +156,24 @@ class FinalQuestionnaire(Page):
         'becaMEC',
         'football_team',
         'payoff_satisfaction',
-        'talent_vs_effort',
+        'discrimiation_level',
         'role_fairness',
     ]
 
 
 
-
-
-
-page_sequence = [EnterID, ResultsCompetitiveTask, Introduction, RoleAssignment,  Offer, WaitForOffer, DictatorOffer, AcceptReject, PerceptionQuestion, WaitForResults, ResultsProposer, ResultsReceiver,FinalPage,FinalQuestionnaire]
-
+page_sequence = [
+    EnterID,
+    Introduction,
+    RoleAssignment,
+    Offer,
+    WaitForOffer,
+    DictatorOffer,         
+    AcceptReject,
+    WaitForResults,
+    PerceptionQuestion,    
+    ResultsProposer,
+    ResultsReceiver,
+    FinalPage,
+    FinalQuestionnaire,
+]

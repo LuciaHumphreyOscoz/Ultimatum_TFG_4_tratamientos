@@ -1,0 +1,41 @@
+
+{% block content %}
+    <h3 style="margin-bottom: 25px;">Resultados</h3>
+
+    <p>Has ofrecido <strong>{{ amount_offered }}</strong> experimentales al receptor.</p>
+
+    {% if accepted %}
+        <p>El receptor <strong>aceptó</strong> tu oferta.</p>
+        <p>Tu pago final es de <strong>{{ final_payment }}</strong> experimentales.</p>
+    {% else %}
+        <p>El receptor <strong>rechazó</strong> tu oferta.</p>
+        <p>No recibirás puntos experimentales.</p>
+    {% endif %}
+
+    <hr>
+
+    <p><strong>Explícanos brevemente por qué elegiste esa cantidad:</strong></p>
+
+    <form method="post">
+        {{ form.explanation1 }}
+        <br>
+        <button type="submit">Enviar</button>
+    </form>
+
+    <p class="text-muted">La página se enviará automáticamente en <strong id="timer">90</strong> segundos.</p>
+
+    <script>
+        let timeLeft = 90;
+        const timerElement = document.getElementById("timer");
+
+        function updateTimer() {
+             if (timeLeft > 0) {
+                timeLeft--;
+                timerElement.textContent = timeLeft;
+                setTimeout(updateTimer, 1000);
+            }
+        }
+
+        updateTimer();
+    </script>
+{% endblock %}

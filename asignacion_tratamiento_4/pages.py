@@ -26,6 +26,10 @@ class Introduction(Page):
 class IntroductionEjemplos(Page):
     def is_displayed(self):
         return self.round_number == 1
+    def vars_for_template(self):
+        return dict(
+            time_minutes=10 
+        )
 
 
 class EjemplosTask(Page):
@@ -35,8 +39,8 @@ class EjemplosTask(Page):
     def vars_for_template(self):
         if 'example_sequence_1' not in self.session.vars:
             vowels = ['A', 'E', 'I', 'O', 'U']
-            seq1 = ''.join(random.choices(vowels, k=30))
-            seq2 = ''.join(random.choices(vowels, k=30))
+            seq1 = ''.join(random.choices(vowels, k=40))
+            seq2 = ''.join(random.choices(vowels, k=40))
             self.session.vars['example_sequence_1'] = seq1
             self.session.vars['example_sequence_2'] = seq2
             self.session.vars['example_answer_1'] = seq1.count('A')
@@ -55,11 +59,11 @@ class IntroductionTask(Page):
         return self.round_number == 1
 
     def before_next_page(self):
-        self.player.participant.vars['expiry'] = time.time() + 900
+        self.player.participant.vars['expiry'] = time.time() + 600
 
     def vars_for_template(self):
         return dict(
-            time_minutes=15  
+            time_minutes=10 
         )
 
 

@@ -16,8 +16,9 @@ def set_payoffs(group: Group):
         proposer.payoff = proposer.final_payment
         receiver.payoff = receiver.final_payment
 
-        proposer.total_payment_euros = 2.00 + float(proposer.final_payment) * 0.5
-        receiver.total_payment_euros = 2.00 + float(receiver.final_payment) * 0.5
+        proposer.total_payment_euros = 1.00 + float(proposer.final_payment) * 0.5
+        receiver.total_payment_euros = 1.00 + float(receiver.final_payment) * 0.5
+
 
 class EnterID(Page):
     form_model = 'player'
@@ -26,20 +27,15 @@ class EnterID(Page):
     def before_next_page(self):
         self.player.participant.vars['custom_id'] = self.player.custom_participant_id
 
-class ResultsCompetitiveTask(Page):
-      def vars_for_template(self):
-        return {
-            'assigned_role': self.player.assigned_role,
-        }       
 
 class Introduction(Page):
     pass
 
+
 class RoleAssignment(Page):
     def vars_for_template(self):
-        return {
-            'assigned_role': self.player.assigned_role
-        }
+        return {'assigned_role': self.player.assigned_role}
+
 
 class Offer(Page):
     form_model = 'group'
@@ -47,25 +43,13 @@ class Offer(Page):
 
     def is_displayed(self):
         return self.player.assigned_role == 'proposer'
+    
 
 class WaitForOffer(WaitPage):
     def is_displayed(self):
         return self.player.assigned_role == 'receiver'
     
-class PerceptionQuestion(Page):
-    form_model = 'player'
 
-    def get_form_fields(self):
-        if self.player.assigned_role == 'proposer':
-            return ['perception_others_proposers']
-        else:
-            return ['perception_proposers']
-
-    def vars_for_template(self):
-        return {
-            'role': self.player.assigned_role,
-        }
-    
 class DictatorOffer(Page):
     form_model = 'player'
     form_fields = ['hypothetical_offer']
@@ -93,12 +77,23 @@ class AcceptReject(Page):
             set_payoffs(self.group)
 
 
-
-
 class WaitForResults(WaitPage):
     pass
 
+class PerceptionQuestion(Page):
+    form_model = 'player'
 
+    def get_form_fields(self):
+        if self.player.assigned_role == 'proposer':
+            return ['perception_others_proposers']
+        else:
+            return ['perception_proposers']
+
+    def vars_for_template(self):
+        return {
+            'role': self.player.assigned_role,
+        }
+        
 
 class ResultsProposer(Page):
     form_model = 'player'
@@ -130,13 +125,14 @@ class ResultsReceiver(Page):
             'final_payment': self.player.final_payment,
         }
 
+
 class FinalPage(Page):
     def is_displayed(self):
         return True
 
     def vars_for_template(self):
         payoff_points = self.player.payoff or 0
-        fixed_part = 2.00
+        fixed_part = 1.00
         variable_part = float(payoff_points) * 0.5
         total_payment = fixed_part + variable_part
         return {
@@ -147,7 +143,6 @@ class FinalPage(Page):
         }
 
 
-    
 class FinalQuestionnaire(Page):
     form_model = 'player'
     form_fields = [
@@ -158,14 +153,23 @@ class FinalQuestionnaire(Page):
         'becaMEC',
         'football_team',
         'payoff_satisfaction',
-        'talent_vs_effort',
+        'discrimiation_level',
         'role_fairness',
     ]
 
-
-
-
-
-
-page_sequence = [EnterID, ResultsCompetitiveTask, Introduction, RoleAssignment,  Offer, WaitForOffer, DictatorOffer, AcceptReject, PerceptionQuestion, WaitForResults, ResultsProposer, ResultsReceiver,FinalPage,FinalQuestionnaire]
+page_sequence = [
+    EnterID,
+    Introduction,
+    RoleAssignment,
+    Offer,
+    WaitForOffer,
+    DictatorOffer,         
+    AcceptReject,
+    WaitForResults,
+    PerceptionQuestion,    
+    ResultsProposer,
+    ResultsReceiver,
+    FinalPage,
+    FinalQuestionnaire,
+]
 

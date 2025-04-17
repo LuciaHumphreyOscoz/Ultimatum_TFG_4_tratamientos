@@ -17,7 +17,7 @@ class Subsession(BaseSubsession):
             self.session.vars['sequences'] = {}  # Store sequences for all rounds
 
         vowels = ['A', 'E', 'I', 'O', 'U']
-        sequence = ''.join(random.choices(vowels, k=30))  # Generate a sequence of 30 vowels
+        sequence = ''.join(random.choices(vowels, k=40))  # Generate a sequence of 40 vowels
 
         # Store the sequence for this round
         self.session.vars['sequences'][self.round_number] = sequence
@@ -29,10 +29,14 @@ class Group(BaseGroup):
     pass
 
 class Player(BasePlayer):
+
     sequence = models.StringField()  
     guess = models.IntegerField(label="¿Cuántas letras 'A' aparecen en la secuencia?")
     score = models.IntegerField(initial=0) 
     time_limit = models.IntegerField()  
     correct_count = models.IntegerField()
-    custom_participant_id = models.IntegerField( label="Código de Participante")
+    custom_participant_id = models.IntegerField(min=100,
+        max=999,)
+    def save_custom_id(self):
+        self.custom_participant_id = self.participant.vars.get('custom_id', '')
     

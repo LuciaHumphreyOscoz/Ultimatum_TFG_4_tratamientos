@@ -16,8 +16,8 @@ def set_payoffs(group: Group):
         proposer.payoff = proposer.final_payment
         receiver.payoff = receiver.final_payment
 
-        proposer.total_payment_euros = 1.00 + float(proposer.final_payment) * 0.5
-        receiver.total_payment_euros = 1.00 + float(receiver.final_payment) * 0.5
+        proposer.total_payment_euros = 2.00 + float(proposer.final_payment) * 0.5
+        receiver.total_payment_euros = 2.00 + float(receiver.final_payment) * 0.5
 
 class EnterID(Page):
     form_model = 'player'
@@ -28,7 +28,7 @@ class EnterID(Page):
 
         if self.player.custom_participant_id:  # Evitar errores si es None
             numeric_id = int(self.player.custom_participant_id)  # Convertir a número
-            self.player.time_limit = 15 if numeric_id % 2 == 0 else 18
+            self.player.time_limit = 10 if numeric_id % 2 == 0 else 12
             self.player.participant.vars['time_limit'] = self.player.time_limit
             
 class WaitForPartner(WaitPage):
@@ -75,6 +75,27 @@ class Offer(Page):
 class WaitForOffer(WaitPage):
     def is_displayed(self):
         return self.player.assigned_role == 'receiver'
+    
+class PerceptionQuestion(Page):
+    form_model = 'player'
+
+    def get_form_fields(self):
+        if self.player.assigned_role == 'proposer':
+            return ['perception_others_proposers']
+        else:
+            return ['perception_proposers']
+
+    def vars_for_template(self):
+        return {
+            'role': self.player.assigned_role,
+        }
+    
+class DictatorOffer(Page):
+    form_model = 'player'
+    form_fields = ['hypothetical_offer']
+
+    def is_displayed(self):
+        return self.player.assigned_role == 'proposer'
 
 class AcceptReject(Page):
     form_model = 'group'
@@ -99,19 +120,6 @@ class AcceptReject(Page):
 class WaitForResults(WaitPage):
     pass
 
-class PerceptionQuestion(Page):
-    form_model = 'player'
-
-    def get_form_fields(self):
-        if self.player.assigned_role == 'proposer':
-            return ['perception_others_proposers']
-        else:
-            return ['perception_proposers']
-
-    def vars_for_template(self):
-        return {
-            'role': self.player.assigned_role,
-        }
 
 
 class ResultsProposer(Page):
@@ -151,7 +159,7 @@ class FinalPage(Page):
 
     def vars_for_template(self):
         payoff_points = self.player.payoff or 0
-        fixed_part = 1.00
+        fixed_part = 2.00
         variable_part = float(payoff_points) * 0.5
         total_payment = fixed_part + variable_part
         return {
@@ -176,4 +184,4 @@ class FinalQuestionnaire(Page):
     ]
 
 
-page_sequence = [EnterID, WaitForPartner, ResultsCompetitiveTask, Introduction, RoleAssignment,  Offer, WaitForOffer,PerceptionQuestion,AcceptReject,WaitForResults, ResultsProposer, ResultsReceiver,FinalPage,FinalQuestionnaire]
+page_sequence = [EnterID, WaitForPartner, ResultsCompetitiveTask, Introduction, RoleAssignment,  Offer, WaitForOffer, DictatorOffer, AcceptReject,WaitForResults, PerceptionQuestion, ResultsProposer, ResultsReceiver,FinalPage,FinalQuestionnaire]

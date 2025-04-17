@@ -51,6 +51,13 @@ class Player(BasePlayer):
     def role(self):
         return self.assigned_role
     
+    
+    hypothetical_offer = models.CurrencyField(
+        min=0,
+        max=10,
+        label="¿Cuántos puntos habrías repartido si la otra persona no pudiera rechazar tu propuesta?"
+    )
+
 
     # Percepciones sobre el comportamiento de otros
     perception_others_proposers = models.FloatField(

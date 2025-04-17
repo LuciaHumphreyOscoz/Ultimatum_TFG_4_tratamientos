@@ -16,8 +16,8 @@ def set_payoffs(group: Group):
         proposer.payoff = proposer.final_payment
         receiver.payoff = receiver.final_payment
 
-        proposer.total_payment_euros = 1.00 + float(proposer.final_payment) * 0.5
-        receiver.total_payment_euros = 1.00 + float(receiver.final_payment) * 0.5
+        proposer.total_payment_euros = 2.00 + float(proposer.final_payment) * 0.5
+        receiver.total_payment_euros = 2.00 + float(receiver.final_payment) * 0.5
 
         
 class EnterID(Page):
@@ -52,6 +52,28 @@ class Offer(Page):
 class WaitForOffer(WaitPage):
     def is_displayed(self):
         return self.player.assigned_role == 'receiver'
+    
+class PerceptionQuestion(Page):
+    form_model = 'player'
+
+    def get_form_fields(self):
+        if self.player.assigned_role == 'proposer':
+            return ['perception_others_proposers']
+        else:
+            return ['perception_proposers']
+
+    def vars_for_template(self):
+        return {
+            'role': self.player.assigned_role,
+        }
+    
+class DictatorOffer(Page):
+    form_model = 'player'
+    form_fields = ['hypothetical_offer']
+
+    def is_displayed(self):
+        return self.player.assigned_role == 'proposer'
+
 
 class AcceptReject(Page):
     form_model = 'group'
@@ -76,21 +98,6 @@ class AcceptReject(Page):
 
 class WaitForResults(WaitPage):
     pass
-
-
-class PerceptionQuestion(Page):
-    form_model = 'player'
-
-    def get_form_fields(self):
-        if self.player.assigned_role == 'proposer':
-            return ['perception_others_proposers']
-        else:
-            return ['perception_proposers']
-
-    def vars_for_template(self):
-        return {
-            'role': self.player.assigned_role,
-        }
 
 
 class ResultsProposer(Page):
@@ -131,7 +138,7 @@ class FinalPage(Page):
 
     def vars_for_template(self):
         payoff_points = self.player.payoff or 0
-        fixed_part = 1.00
+        fixed_part = 2.00
         variable_part = float(payoff_points) * 0.5
         total_payment = fixed_part + variable_part
         return {
@@ -156,5 +163,5 @@ class FinalQuestionnaire(Page):
     ]
 
 
-page_sequence = [EnterID, ResultsCompetitiveTask, Introduction, RoleAssignment,  Offer, WaitForOffer,PerceptionQuestion,AcceptReject, WaitForResults, ResultsProposer, ResultsReceiver,FinalPage,FinalQuestionnaire]
+page_sequence = [EnterID, ResultsCompetitiveTask, Introduction, RoleAssignment,  Offer, WaitForOffer,DictatorOffer, AcceptReject, WaitForResults, PerceptionQuestion, ResultsProposer, ResultsReceiver,FinalPage,FinalQuestionnaire]
 

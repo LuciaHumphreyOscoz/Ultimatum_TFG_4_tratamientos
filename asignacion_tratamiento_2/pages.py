@@ -20,7 +20,7 @@ class EnterID(Page):
             id_num = int(self.player.custom_participant_id)
         except ValueError:
             id_num = 0
-        self.player.time_limit = 18 if id_num % 2 == 1 else 15
+        self.player.time_limit = 12 if id_num % 2 == 1 else 10
 
 class Introduction(Page):
     def is_displayed(self):
@@ -31,15 +31,9 @@ class Introduction(Page):
 class IntroductionEjemplos(Page):
     def is_displayed(self):
         return self.round_number == 1
-
     def vars_for_template(self):
-        custom_id = self.player.participant.vars.get('custom_id', '0')
-        try:
-            id_num = int(custom_id)
-        except ValueError:
-            id_num = 0
-        minutos = 18 if id_num % 2 == 1 else 15
-        return dict(tiempo_minutos=minutos)
+        return dict(tiempo_minutos=self.player.time_limit)
+
 
 
 
@@ -50,8 +44,8 @@ class EjemplosTask(Page):
     def vars_for_template(self):
         if 'example_sequence_1' not in self.session.vars:
             vowels = ['A', 'E', 'I', 'O', 'U']
-            seq1 = ''.join(random.choices(vowels, k=30))
-            seq2 = ''.join(random.choices(vowels, k=30))
+            seq1 = ''.join(random.choices(vowels, k=40))
+            seq2 = ''.join(random.choices(vowels, k=40))
             self.session.vars['example_sequence_1'] = seq1
             self.session.vars['example_sequence_2'] = seq2
             self.session.vars['example_answer_1'] = seq1.count('A')
@@ -68,26 +62,13 @@ class EjemplosTask(Page):
 class IntroductionTask(Page):
     def is_displayed(self):
         return self.round_number == 1
-
+    
     def vars_for_template(self):
-        custom_id = self.player.participant.vars.get('custom_id', '0')
-        try:
-            id_num = int(custom_id)
-        except ValueError:
-            id_num = 0
-        minutos = 18 if id_num % 2 == 1 else 15
-        return dict(tiempo_minutos=minutos)
-
+        return dict(tiempo_minutos=self.player.time_limit)
+    
     def before_next_page(self):
-        custom_id = self.player.participant.vars.get('custom_id', '0')
-        try:
-            id_num = int(custom_id)
-        except ValueError:
-            id_num = 0
-        duration = 1080 if id_num % 2 == 1 else 900
+        duration = self.player.time_limit * 60  
         self.player.participant.vars['expiry'] = time.time() + duration
-        self.player.time_limit = duration  # opcional, si quieres guardarlo
-
 
 class Task(Page):
     form_model = 'player'
@@ -103,7 +84,7 @@ class Task(Page):
     def vars_for_template(self):
         if not self.player.sequence:
             self.player.sequence = self.player.session.vars['sequences'].get(self.round_number, "ERROR")
-
+        self.player.save_custom_id()  # 👈 aquí se asegura cada ronda
         return dict(
             round_number=self.round_number,
             total_rounds=C.NUM_ROUNDS,
@@ -126,7 +107,6 @@ class Task(Page):
             self.player.score = prev_score + 1 if player_guess == correct_count else prev_score
 
         self.player.participant.vars['final_score'] = self.player.score
-        self.player.custom_participant_id = self.player.participant.vars.get('custom_id', '')
 
 
 
