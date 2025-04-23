@@ -151,7 +151,6 @@ class FinalQuestionnaire(Page):
         'studies',
         'socialcapital',
         'becaMEC',
-        'football_team',
         'payoff_satisfaction',
         'discrimiation_level',
         'role_fairness',

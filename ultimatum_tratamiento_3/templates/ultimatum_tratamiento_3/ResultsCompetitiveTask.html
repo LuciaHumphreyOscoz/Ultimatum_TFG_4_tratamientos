@@ -1,12 +1,13 @@
 {% block content %}
-    <h3 style="margin-bottom: 25px;">Resultados Tarea Competitiva</h3>
+    <h3 style="margin-bottom: 25px;">Resultados Prueba Competitiva</h3>
 
-    <p>Calculamos los resultados de todos los participantes de la sala y elaboramos un ranking en consecuencia.</p>
-    
+    <p>Tu rendimiento en la prueba dependió de tu habilidad memorística innata.</p>
+    <p>Esta puntuación fue utilizada para elaborar un ranking entre todos los participantes.</p>
+
     {% if assigned_role == 'proposer' %}
-        <p>Estás dentro del 50% con mejor rendimiento en la tarea competitiva</p>
+        <p>En tu caso, estás dentro del 50% con mejor rendimiento en la tarea competitiva.</p>
     {% elif assigned_role == 'receiver' %}
-        <p>No estás dentro del 50% con mejor rendimiento en la tarea competitiva</p>
+        <p>En tu caso, no estás dentro del 50% con mejor rendimiento en la tarea competitiva.</p>
     {% endif %}
 
     {{ formfields }}

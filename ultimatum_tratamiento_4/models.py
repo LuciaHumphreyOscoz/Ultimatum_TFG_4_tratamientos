@@ -80,7 +80,6 @@ class Player(BasePlayer):
     age = models.IntegerField(label="Edad")
     studies = models.StringField(label="¿Qué estudias?")
     socialcapital=models.StringField(label="¿Alguno de tus padres ha obtenido un título unversitario?", choices=["Sí","No", "No estoy seguro"],widget=widgets.RadioSelect)
-    football_team=models.StringField(label="¿Con que equipo de fútbol simpatizas más?")
     becaMEC= models.StringField(label="¿Has recibido la Beca del Ministerio de Educación (beca MEC) alguna vez en lo que llevas de carrera?", choices=[ "Sí", "No", "No estoy seguro"],widget=widgets.RadioSelect)
     payoff_satisfaction = models.IntegerField(label="¿En una escala del 1 al 10, cuán satisfecho/a estás con tus ganancias en el experimento? (1 = totalmente insatisfecho/a, 10 = totalmente satisfecho/a)", min=1,max=10,)
     role_fairness = models.IntegerField(min=1, max=10, label="¿En una escala del 1 al 10, cuán justa consideras la asignación de roles? (1 = totalmente injusta, 10 = totalmente justa)")

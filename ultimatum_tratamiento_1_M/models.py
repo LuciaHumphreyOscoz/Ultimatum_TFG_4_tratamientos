@@ -84,7 +84,6 @@ class Player(BasePlayer):
         choices=["Sí", "No", "No estoy seguro"],
         widget=widgets.RadioSelect
     )
-    football_team = models.StringField(label="¿Con qué equipo de fútbol simpatizas más?")
     becaMEC = models.StringField(
         label="¿Has recibido la Beca del Ministerio de Educación (beca MEC) alguna vez en lo que llevas de carrera?",
         choices=["Sí", "No", "No estoy seguro"],

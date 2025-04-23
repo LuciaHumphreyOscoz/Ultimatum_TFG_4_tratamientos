@@ -14,5 +14,4 @@ class Group(BaseGroup):
 
 class Player(BasePlayer):
     gender = models.StringField(choices=C.GENDER_CHOICES,)
-    custom_participant_id = models.IntegerField(min=100,
-        max=999,)
+    custom_participant_id = models.IntegerField()
