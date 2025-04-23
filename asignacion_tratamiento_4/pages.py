@@ -5,7 +5,7 @@ import random
 class C(BaseConstants):
     NAME_IN_URL = 'tarea_competitiva_4'
     PLAYERS_PER_GROUP = None
-    NUM_ROUNDS = 400
+    NUM_ROUNDS = 300
 
 
 class EnterID(Page):

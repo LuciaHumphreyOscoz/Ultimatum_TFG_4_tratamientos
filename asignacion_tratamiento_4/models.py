@@ -5,7 +5,7 @@ import random
 class C(BaseConstants):
     NAME_IN_URL = 'tarea_competitiva_4'
     PLAYERS_PER_GROUP = None
-    NUM_ROUNDS = 400  
+    NUM_ROUNDS = 300  
 
 class Subsession(BaseSubsession):
     def creating_session(self):
@@ -30,8 +30,7 @@ class Group(BaseGroup):
 
 class Player(BasePlayer):
     sequence = models.StringField()  
-    guess = models.IntegerField(label="¿Cuántas letras 'A' aparecen en la secuencia?")
+    guess = models.IntegerField(label="¿Cuántas veces aparece la letra <strong>A</strong> en la secuencia?")
     score = models.IntegerField(initial=0)  # Ensure score exists
     correct_count = models.IntegerField()
-    custom_participant_id = models.IntegerField(min=100,
-        max=999,)
+    custom_participant_id = models.IntegerField()
