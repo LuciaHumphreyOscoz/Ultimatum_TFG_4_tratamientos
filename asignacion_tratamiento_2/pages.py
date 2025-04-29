@@ -27,7 +27,6 @@ class Introduction(Page):
         return self.round_number == 1
 
 
-
 class IntroductionEjemplos(Page):
     def is_displayed(self):
         return self.round_number == 1
