@@ -1,6 +1,5 @@
 from otree.api import *
 
-
 class C(BaseConstants): 
     NAME_IN_URL = 'ultimatum_game_3'
     PLAYERS_PER_GROUP = 2

@@ -20,7 +20,7 @@ class EnterID(Page):
             id_num = int(self.player.custom_participant_id)
         except ValueError:
             id_num = 0
-        self.player.time_limit = 12 if id_num % 2 == 1 else 10
+        self.player.time_limit = 10 if id_num % 2 == 1 else 8
 
 class Introduction(Page):
     def is_displayed(self):

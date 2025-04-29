@@ -3,11 +3,14 @@
 
     <p>Tu rendimiento en la prueba dependió de tu habilidad memorística innata.</p>
     <p>Esta puntuación fue utilizada para elaborar un ranking entre todos los participantes.</p>
-
+    <p>
+        Todos los participantes tuvisteis las mismas secuencias y preguntas. 
+    </p>
+    
     {% if assigned_role == 'proposer' %}
-        <p>En tu caso, estás dentro del 50% con mejor rendimiento en la tarea competitiva.</p>
+        <p>En tu caso, estás dentro del 50% con mejor rendimiento en la prueba competitiva.</p>
     {% elif assigned_role == 'receiver' %}
-        <p>En tu caso, no estás dentro del 50% con mejor rendimiento en la tarea competitiva.</p>
+        <p>En tu caso, no estás dentro del 50% con mejor rendimiento en la prueba competitiva.</p>
     {% endif %}
 
     {{ formfields }}

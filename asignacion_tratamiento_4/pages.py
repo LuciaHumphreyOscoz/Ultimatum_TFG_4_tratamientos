@@ -28,7 +28,7 @@ class IntroductionEjemplos(Page):
         return self.round_number == 1
     def vars_for_template(self):
         return dict(
-            time_minutes=10 
+            time_minutes=8
         )
 
 
@@ -59,11 +59,11 @@ class IntroductionTask(Page):
         return self.round_number == 1
 
     def before_next_page(self):
-        self.player.participant.vars['expiry'] = time.time() + 600
+        self.player.participant.vars['expiry'] = time.time() + 480
 
     def vars_for_template(self):
         return dict(
-            time_minutes=10 
+            time_minutes=8
         )
 
 

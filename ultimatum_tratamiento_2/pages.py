@@ -28,7 +28,7 @@ class EnterID(Page):
 
         if self.player.custom_participant_id:  # Evitar errores si es None
             numeric_id = int(self.player.custom_participant_id)  # Convertir a número
-            self.player.time_limit = 10 if numeric_id % 2 == 0 else 12
+            self.player.time_limit = 8 if numeric_id % 2 == 0 else 10
             self.player.participant.vars['time_limit'] = self.player.time_limit
             
 class WaitForPartner(WaitPage):
