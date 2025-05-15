@@ -99,7 +99,7 @@ class Player(BasePlayer):
         max=10,
         label="¿En una escala del 1 al 10, cuán justa consideras la asignación de roles? (1 = totalmente injusta, 10 = totalmente justa)"
     )
-    discrimiation_level = models.IntegerField(
+    discrimination_level = models.IntegerField(
         min=1,
         max=10,
         label="¿En una escala del 1 al 10, hasta qué punto sentiste que el uso del género como criterio fue una forma de discriminación? (1 = para nada, 10 = totalmente)"

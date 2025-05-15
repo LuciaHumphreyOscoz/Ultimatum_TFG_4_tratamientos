@@ -16,8 +16,8 @@ def set_payoffs(group: Group):
         proposer.payoff = proposer.final_payment
         receiver.payoff = receiver.final_payment
 
-        proposer.total_payment_euros = 1.00 + float(proposer.final_payment) * 0.5
-        receiver.total_payment_euros = 1.00 + float(receiver.final_payment) * 0.5
+        proposer.total_payment_euros = 2.00 + float(proposer.final_payment) * 0.5
+        receiver.total_payment_euros = 2.00 + float(receiver.final_payment) * 0.5
 
 
 class EnterID(Page):
@@ -132,7 +132,7 @@ class FinalPage(Page):
 
     def vars_for_template(self):
         payoff_points = self.player.payoff or 0
-        fixed_part = 1.00
+        fixed_part = 2.00
         variable_part = float(payoff_points) * 0.5
         total_payment = fixed_part + variable_part
         return {
